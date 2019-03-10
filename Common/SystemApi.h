@@ -223,6 +223,9 @@ public:
 #endif
 	}
 
+#ifdef _WINDOWS
+
+#else
 	static void  SetNonBlocking(int sock)
 	{
 		int opt=fcntl(sock,F_GETFL);
@@ -259,6 +262,6 @@ public:
 		close(sock);
 	}
 };
-
+#endif
 
 #endif

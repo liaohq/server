@@ -147,4 +147,18 @@ void    NetLibuv::ClientRecvCallBackFunc(uv_stream_t *handle, ssize_t nread, con
 	}
 	
 	cout << "client socket:" << client->u.fd << ",recv msg:" << buf->base << endl;
+	memset(buf->base, 0, buf->len);
+
+}
+
+
+
+void    NetLibuv::RegisterSocket(int sock)
+{
+
+}
+
+void    NetLibuv::UnRegisterSocket(int sock)
+{
+
 }

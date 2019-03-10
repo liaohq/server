@@ -33,6 +33,9 @@ public:
 	static void				SocketAfterCloseCallBackFunc(uv_handle_t *handle);
 	static void				NewClientAllocBufferCallBackFunc(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf);
 	static void				ClientRecvCallBackFunc(uv_stream_t *handle, ssize_t nread, const uv_buf_t* buf);
+public:
+	void					RegisterSocket(int sock);
+	void					UnRegisterSocket(int sock);
 private:
 	int						WorkThread(ThreadInfo&  info);
 private:

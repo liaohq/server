@@ -70,7 +70,7 @@ set(SUB_DIR "../Common/Base"
 #宏定义
 set(DEFINITIONS #"USE_MY_TEST"
 				"USE_PROTOBUF"
-				#"USE_LIBUV"
+				"USE_LIBUV"
 				"USE_MYSQL"
 				"USE_REDIS"
 				"_CRT_SECURE_NO_WARNINGS"
