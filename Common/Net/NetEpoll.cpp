@@ -59,7 +59,7 @@ int		NetEpoll::WorkThread(ThreadInfo& info)
 
 		if( cur_ev.events & EPOLLIN)
 		{
-			const int buf_size = 10;
+			const int buf_size = 1024;
 			char buf[buf_size];
 			while(1)
 			{
@@ -77,11 +77,15 @@ int		NetEpoll::WorkThread(ThreadInfo& info)
 				
 
 				buf[read_num]='\0';
-				cout<<"recv msg:"<<buf<<endl;
+			    
+				stringstream oss;
+				oss<<"recv client "<< cur_sock << ", curTime: "<<TIME_API.GetCurrentTimeStr()<<endl;
+				oss<<buf;
+				cout<<oss.str()<<endl;
 
 				write(cur_sock,buf,read_num);
 				
-				
+
 				//if(read_num == buf_size)
 				{
 					cur_ev.events = EPOLLOUT|EPOLLET;

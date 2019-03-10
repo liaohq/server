@@ -46,7 +46,10 @@ void	NetServer::Init()
 
     //SystemApi::SetNonBlocking(listen_fd);
 
+
 	m_ListenFd = listen_fd;
+	
+	cout<<"Listen on 0.0.0.0:8888"<<endl;
 }
 
 void	NetServer::Start()
