@@ -4,7 +4,7 @@
 #include"Test/MyTest.h"
 #include "Net/NetServer.h"
 #include "Lua-Src/LuaMgr.h"
-
+#include "Sql/RedisConn.h"
 
 LogicServer	g_LogicServer;
 
@@ -40,7 +40,8 @@ void	LogicServer::PreInit()
 	SOCKET_POOL.Init(1000);
 
 	m_ModuleContainer.RegisterModule(&NET_SERVER_MGR, "netserver");
-	m_ModuleContainer.RegisterModule(&LUA_MGR, "luamgr");
+	m_ModuleContainer.RegisterModule(&LUA_MGR, "luaMgr");
+	m_ModuleContainer.RegisterModule(&REDIS_MGR, "redisMgr");
 
 
 

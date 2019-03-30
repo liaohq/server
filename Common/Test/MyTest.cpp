@@ -52,7 +52,7 @@ void MyTest::Init()
 	m_TestFuncIsEnable[TEST_REDIS]			 = false;
 	m_TestFuncIsEnable[TEST_TABLE_CONFIG]    = false;
 	m_TestFuncIsEnable[TEST_ASSERT]			 = false;			 
-	m_TestFuncIsEnable[TEST_OTHER]			 = true;
+	m_TestFuncIsEnable[TEST_OTHER]			 = false;
 	m_TestFuncIsEnable[TEST_DUMP]			 = false;
 	m_TestFuncIsEnable[TEST_LUA]			 = false;	
 	m_TestFuncIsEnable[TEST_SIGSEGV]		 = false;
@@ -135,8 +135,9 @@ void MyTest::RedisTest(void* arg)
 
 	
 	size_t data_len=sizeof(tmp_data);
-	const char* send_msg=(const char*)&tmp_data;
-	reply = (redisReply*)redisCommandArgv(c,sizeof(tmp_data),&send_msg,&data_len);
+	const char* send_msg=(const char*)tmp_data;
+	//reply = (redisReply*)redisCommandArgv(c,sizeof(tmp_data),&send_msg,&data_len);
+	reply = (redisReply*)redisCommand(c,"set i %b", send_msg, data_len);
 	if(reply == NULL)
 	{
 		GAME_ASSERT_MSG(FALSE,"Redis Reply fail,err_str:%s\n",c->errstr);
@@ -144,6 +145,17 @@ void MyTest::RedisTest(void* arg)
 	}
 
 	printf("Redis Replay:%s\n",reply->str);
+
+	reply = (redisReply*)redisCommand(c,"get i");
+	if(reply == NULL)
+	{
+		GAME_ASSERT_MSG(FALSE,"Redis Reply fail,err_str:%s\n",c->errstr);
+		return;
+	}
+
+	RedisData* msg = (RedisData*)reply->str;
+	printf("Redis Replay,len:%d, :%d %d \n", reply->len, msg->English, msg->Math );
+
 }
 
 void MyTest::TableConfigTest(void* arg)
