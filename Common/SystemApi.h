@@ -261,7 +261,7 @@ public:
 	{
 		close(sock);
 	}
-};
-#endif
 
+#endif
+};
 #endif

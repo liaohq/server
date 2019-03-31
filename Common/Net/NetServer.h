@@ -34,8 +34,7 @@ private:
 #else
 	NetEpoll			m_NetHandle;
 #endif
-	ThreadBox<NetServer> m_AcceptThread;
-	int					m_ListenFd;
+	
 };
 
 extern   NetServer  g_NetServer;

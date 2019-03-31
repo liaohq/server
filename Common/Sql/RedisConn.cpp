@@ -17,7 +17,7 @@ RedisConn::~RedisConn()
 
 void	RedisConn::PreInit()
 {
-	m_connHandle = redisConnect((char*)"127.0.0.1", 6379);
+	m_connHandle = redisConnect((char*)"119.23.13.125", 6379);
 	if (m_connHandle->err) 
 	{
 		GAME_ASSERT_MSG(FALSE,"Redis Connect error:%s\n",m_connHandle->errstr);

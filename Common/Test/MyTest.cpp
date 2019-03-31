@@ -8,7 +8,7 @@
 #include "Lua-Src/Lua-head.h"
 #include <signal.h>
 #include <setjmp.h>
-#include <execinfo.h>
+
 
 jmp_buf env;
 
@@ -239,7 +239,7 @@ void ListNodeTest(const ListNode* node)
 
 bool CheckListIsLoop(const ListNode* node)
 {
-
+	return false;
 }
 
 void Test1()
@@ -379,46 +379,62 @@ void MyTest::LuaTest(void* arg)
 
 void ErrorDump()
 {
-	const int MaxLevel =200;
+#ifdef	_WINDOWS
+
+#else
+	const int MaxLevel = 200;
 	void* buf[MaxLevel];
-	int level = backtrace(buf,MaxLevel);
-	
-	char** back_str = (char**)backtrace_symbols(buf,level);
-	for(int i=0;i<level;i++)
+	int level = backtrace(buf, MaxLevel);
+
+	char** back_str = (char**)backtrace_symbols(buf, level);
+	for (int i = 0; i < level; i++)
 	{
-		printf("%s\n",back_str[i]);
+		printf("%s\n", back_str[i]);
 	}
+#endif
+
 }
 void RecvSignal(int sig)
 {
-	cout<<"receive signal "<<sig<<endl;
+#ifdef	_WINDOWS
+
+#else
+	cout << "receive signal " << sig << endl;
 	ErrorDump();
-	siglongjmp(env,1);
+	siglongjmp(env, 1);
+#endif
+
 }
 
 void MyTest::SigSegvTest(void* arg)
 {
-	for(int i=0;i<2;i++)
+#ifdef	_WINDOWS
+
+#else
+	for (int i = 0; i < 2; i++)
 	{
-		int ret = sigsetjmp(env,1);  //savesigs 不为 0时，会保存当前的信号屏蔽表 
-		if( ret == 0 )
+		int ret = sigsetjmp(env, 1);  //savesigs 不为 0时，会保存当前的信号屏蔽表 
+		if (ret == 0)
 		{
-			signal(SIGSEGV,RecvSignal);
+			signal(SIGSEGV, RecvSignal);
 			int *tmp = new int;
 			*tmp = 12;
-			cout<<"*tmp="<<*tmp<<" &tmp"<<tmp<<endl;
+			cout << "*tmp=" << *tmp << " &tmp" << tmp << endl;
 
 			delete tmp;
-			tmp =NULL;
-			*tmp =15;
-			cout<<" &tmp"<<tmp<<endl;
+			tmp = NULL;
+			*tmp = 15;
+			cout << " &tmp" << tmp << endl;
 		}
 		else
 		{
-			cout<<"SigSegvTest err,ret="<<ret<<endl;
+			cout << "SigSegvTest err,ret=" << ret << endl;
 		}
-	
-	}
+
+}
+#endif
+
+
 }
 
 void MyTest::LibuvTest(void* arg)

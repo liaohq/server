@@ -51,6 +51,8 @@ void	NetLibuv::PreInit()
 		return;
 	}
 
+	PRINT_MSG("Libuv Listen on 0.0.0.0:8888");
+
 }
 
 void	NetLibuv::Init()
@@ -101,7 +103,7 @@ void	NetLibuv::NewConnectCallBackFunc(uv_stream_t* server, int status)
 
 	if (uv_accept(server,(uv_stream_t*)client) == 0)
 	{
-		cout << "accpet client,sock=" << client->u.fd << endl;
+		cout << "accpet client,sock=" << client->socket<< endl;
 		uv_read_start((uv_stream_t*)client, &NetLibuv::NewClientAllocBufferCallBackFunc, &NetLibuv::ClientRecvCallBackFunc);
 	}
 
@@ -134,19 +136,19 @@ void    NetLibuv::ClientRecvCallBackFunc(uv_stream_t *handle, ssize_t nread, con
 
 	if (nread < 0) {
 		if (nread == UV_EOF) {
-			fprintf(stdout, "socket(%d)主动断开\n", client->u.fd);
+			fprintf(stdout, "socket(%d)主动断开\n", client->socket);
 		}
 		else if (nread == UV_ECONNRESET) {
-			fprintf(stdout, "socket(%d)异常断开\n", client->u.fd);
+			fprintf(stdout, "socket(%d)异常断开\n", client->socket);
 		}
 		else {
-			fprintf(stdout, "socket(%d)异常断开:%s\n", client->u.fd, uv_err_name(nread));
+			fprintf(stdout, "socket(%d)异常断开:%s\n", client->socket, uv_err_name(nread));
 		}
 		uv_close((uv_handle_t*)handle, &NetLibuv::SocketAfterCloseCallBackFunc);
 		return;
 	}
 	
-	cout << "client socket:" << client->u.fd << ",recv msg:" << buf->base << endl;
+	cout << "client socket:" << client->socket << ",recv msg:" << buf->base << endl;
 	memset(buf->base, 0, buf->len);
 
 }

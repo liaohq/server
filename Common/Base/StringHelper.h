@@ -11,6 +11,8 @@
 #include<vector>
 #include "AssertMgr.h"
 
+using namespace std;
+
 class	StringHelper
 {
 public:

@@ -7,6 +7,7 @@
 #ifndef		_NET_EPOLL_H
 #define		_NET_EPOLL_H
 
+#ifndef	_WINDOWS
 #include "Common.h"
 #include "CommonHead.h"
 #include "Base/Thread.h"
@@ -31,7 +32,11 @@ private:
 private:
 	ThreadBox<NetEpoll>		m_WorkThread;
 	int						m_EpollFD;
+	int						m_ListenFd;
 };
+
+#endif
+
 
 
 

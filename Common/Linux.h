@@ -7,7 +7,9 @@
 #ifndef		_LINUX_H
 #define		_LINUX_H
 
+#ifdef	_WINDOWS
 
+#else
 #include <errno.h>
 #include <sys/time.h>
 #include <stdarg.h>
@@ -17,7 +19,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/epoll.h>
-
+#include <execinfo.h>
 
 typedef	int			SOCKET;
 typedef	pthread_t	TID;
@@ -39,14 +41,17 @@ typedef long long			INT64;
 class GameLock
 {
 public:
-	GameLock(){pthread_mutex_init(&m_Lock,NULL);}
-	~GameLock(){pthread_mutex_destroy(&m_Lock);}
+	GameLock() { pthread_mutex_init(&m_Lock, NULL); }
+	~GameLock() { pthread_mutex_destroy(&m_Lock); }
 
-	void	Lock(){pthread_mutex_lock(&m_Lock);}
-	void    UnLock(){pthread_mutex_unlock(&m_Lock);}
+	void	Lock() { pthread_mutex_lock(&m_Lock); }
+	void    UnLock() { pthread_mutex_unlock(&m_Lock); }
 private:
 	pthread_mutex_t		m_Lock;
 };
+
+#endif
+
 
 
 #endif
