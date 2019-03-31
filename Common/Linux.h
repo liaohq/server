@@ -20,6 +20,10 @@
 #include <fcntl.h>
 #include <sys/epoll.h>
 #include <execinfo.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
 
 typedef	int			SOCKET;
 typedef	pthread_t	TID;

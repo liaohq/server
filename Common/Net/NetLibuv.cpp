@@ -134,21 +134,26 @@ void    NetLibuv::ClientRecvCallBackFunc(uv_stream_t *handle, ssize_t nread, con
 	
 	uv_tcp_t* client = (uv_tcp_t*)handle;
 
+#ifdef _WINDOWS
+	SOCKET socket = client->socket;
+#else
+	SOCKET socket = client->u.fd;
+#endif
 	if (nread < 0) {
 		if (nread == UV_EOF) {
-			fprintf(stdout, "socket(%d)主动断开\n", client->socket);
+			fprintf(stdout, "socket(%d)主动断开\n", socket);
 		}
 		else if (nread == UV_ECONNRESET) {
-			fprintf(stdout, "socket(%d)异常断开\n", client->socket);
+			fprintf(stdout, "socket(%d)异常断开\n", socket);
 		}
 		else {
-			fprintf(stdout, "socket(%d)异常断开:%s\n", client->socket, uv_err_name(nread));
+			fprintf(stdout, "socket(%d)异常断开:%s\n", socket, uv_err_name(nread));
 		}
 		uv_close((uv_handle_t*)handle, &NetLibuv::SocketAfterCloseCallBackFunc);
 		return;
 	}
 	
-	cout << "client socket:" << client->socket << ",recv msg:" << buf->base << endl;
+	cout << "client socket:" << socket << ",recv msg:" << buf->base << endl;
 	memset(buf->base, 0, buf->len);
 
 }

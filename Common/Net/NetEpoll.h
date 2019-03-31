@@ -11,6 +11,7 @@
 #include "Common.h"
 #include "CommonHead.h"
 #include "Base/Thread.h"
+#include "SocketDefine.h"
 
 class NetEpoll
 {

@@ -1,5 +1,4 @@
 #include "NetEpoll.h"
-#include "SocketDefine.h"
 
 #ifndef	_WINDOWS
 NetEpoll::NetEpoll()
