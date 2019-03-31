@@ -103,7 +103,13 @@ void	NetLibuv::NewConnectCallBackFunc(uv_stream_t* server, int status)
 
 	if (uv_accept(server,(uv_stream_t*)client) == 0)
 	{
-		cout << "accpet client,sock=" << client->socket<< endl;
+#ifdef _WINDOWS
+		SOCKET socket = client->socket;
+#else
+		SOCKET socket = client->u.fd;
+#endif
+
+		cout << "accpet client,sock=" << socket << endl;
 		uv_read_start((uv_stream_t*)client, &NetLibuv::NewClientAllocBufferCallBackFunc, &NetLibuv::ClientRecvCallBackFunc);
 	}
 
